@@ -37,3 +37,7 @@ volumes:
 
 networks:
   app_net:
+
+secrets:
+  ghcr_auth_config:
+    external: true
