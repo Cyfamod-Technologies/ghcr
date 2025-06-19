@@ -1,3 +1,3 @@
 <?php
-echo "Hello from GHCR! 👋";
+echo "Hello from GHCR! kisser👋";
 ?>
