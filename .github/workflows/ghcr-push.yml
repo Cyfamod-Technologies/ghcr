@@ -18,7 +18,7 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
   build:
-    name: Build & Push (GHCR ${{ needs.version.outputs.version }})
+    name: Build (GHCR ${{ needs.version.outputs.version }})
     needs: version
     runs-on: ubuntu-latest
 
