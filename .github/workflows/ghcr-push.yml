@@ -16,6 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set version number
+        id: version
+        run: |
+          VERSION="v$(date +%Y%m%d-%H%M)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Version Tag: $VERSION"
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
@@ -23,9 +30,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Build & push image
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ghcr.io/incrisz/ghcr-php:latest
+          tags: |
+            ghcr.io/incrisz/ghcr-php:latest
+            ghcr.io/incrisz/ghcr-php:${{ env.VERSION }}
