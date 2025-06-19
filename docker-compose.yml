@@ -5,6 +5,9 @@ services:
     image: ghcr.io/incrisz/ghcr-php:latest
     ports:
       - "8080:80"
+    secrets:
+      - source: ghcr_auth_config
+        target: /root/.docker/config.json
     environment:
       DB_HOST: db
       DB_DATABASE: testdb
