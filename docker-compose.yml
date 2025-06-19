@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  hello:
+    image: ghcr.io/incrisz/ghcr-hello-world:latest
+    ports:
+      - "8080:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
