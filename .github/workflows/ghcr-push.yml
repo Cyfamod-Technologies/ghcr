@@ -48,3 +48,4 @@ jobs:
           tags: |
             ghcr.io/cyfamod-technologies/ghcr-php:latest
             ghcr.io/cyfamod-technologies/ghcr-php:${{ env.VERSION }}
+
