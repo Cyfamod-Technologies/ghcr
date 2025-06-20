@@ -46,5 +46,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/incrisz/ghcr-php:latest
-            ghcr.io/incrisz/ghcr-php:${{ env.VERSION }}
+            ghcr.io/Cyfamod-Technologies/ghcr-php:latest
+            ghcr.io/Cyfamod-Technologies/ghcr-php:${{ env.VERSION }}
