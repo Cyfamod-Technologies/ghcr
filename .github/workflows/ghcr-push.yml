@@ -47,4 +47,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/cyfamod-technologies/ghcr-php:latest
-            ghcr.io/Cyfamod-Technologies/ghcr-php:${{ env.VERSION }}
+            ghcr.io/cyfamod-technologies/ghcr-php:${{ env.VERSION }}
