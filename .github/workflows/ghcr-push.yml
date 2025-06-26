@@ -71,3 +71,4 @@ jobs:
             docker stack deploy --with-registry-auth -c /home/ubuntu/ghcr/docker-compose.yml ghcr
 
  
+ 
