@@ -49,3 +49,25 @@ jobs:
             ghcr.io/cyfamod-technologies/ghcr-php:latest
             ghcr.io/cyfamod-technologies/ghcr-php:${{ env.VERSION }}
 
+  deploy:
+    name: Deploy to Swarm Manager
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          script: |
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
+            docker pull ghcr.io/cyfamod-technologies/ghcr-php:${{ needs.version.outputs.version }}
+            # docker service update \
+            #   --image ghcr.io/cyfamod-technologies/ghcr-php:${{ needs.version.outputs.version }} \
+            #   ghcr
+            docker stack deploy --with-registry-auth -c /home/ubuntu/ghcr/docker-compose.yml ghcr
+
+ 

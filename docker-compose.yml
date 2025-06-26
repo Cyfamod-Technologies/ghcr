@@ -2,12 +2,15 @@ version: "3.8"
 
 services:
   app:
-    image: ghcr.io/incrisz/ghcr-php:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: ghcr.io/cyfamod-technologies/ghcr-php:latest
     ports:
       - "8080:80"
-    secrets:
-      - source: ghcr_auth_config
-        target: /root/.docker/config.json
+    # secrets:
+    #   - source: ghcr_auth_config
+    #     target: /root/.docker/config.json
     environment:
       DB_HOST: db
       DB_DATABASE: testdb
@@ -38,6 +41,6 @@ volumes:
 networks:
   app_net:
 
-secrets:
-  ghcr_auth_config:
-    external: true
+# secrets:
+#   ghcr_auth_config:
+#     external: true
