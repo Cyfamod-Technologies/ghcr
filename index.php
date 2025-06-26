@@ -5,7 +5,7 @@ $db   = getenv('DB_DATABASE') ?: 'testdb';
 $user = getenv('DB_USERNAME') ?: 'user';
 $pass = getenv('DB_PASSWORD') ?: 'password';
 
-echo "Hello from GHCR-sweet boy! 👋<br>";
+echo "Hello CICD done on GHCR! 👋<br>";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
