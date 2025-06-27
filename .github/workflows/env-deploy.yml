@@ -1,0 +1,26 @@
+name: Deploy to Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'Choose environment'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets[format('{0}_HOST', github.event.inputs.env)] }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
+            docker stack deploy --with-registry-auth -c /home/ubuntu/ghcr/docker-compose.${{ github.event.inputs.env }}.yml ghcr

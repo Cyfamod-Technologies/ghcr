@@ -1,0 +1,23 @@
+name: Rollback on Deploy Failure
+
+on:
+  workflow_run:
+    workflows: ["Build and Deploy PHP App"]  
+    types:
+      - completed
+
+jobs:
+  rollback:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Rollback Docker Service
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_SERVER }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            echo "Rolling back service..."
+            docker service rollback ghcr_app

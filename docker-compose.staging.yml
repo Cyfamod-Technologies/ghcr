@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  app:
+    image: ghcr.io/cyfamod-technologies/ghcr-php:latest
+    ports:
+      - "8081:80"
+    environment:
+      APP_ENV: staging
+    networks:
+      - app_net
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+networks:
+  app_net:
+    driver: overlay

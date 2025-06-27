@@ -1,0 +1,45 @@
+name: Basic PHP Smoke Test
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: --health-cmd "mysqladmin ping --silent" --health-interval 5s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t php-test .
+
+      - name: Run PHP container
+        run: |
+          docker run -d --name php-app \
+            -e DB_HOST=127.0.0.1 \
+            -e DB_DATABASE=testdb \
+            -e DB_USERNAME=user \
+            -e DB_PASSWORD=password \
+            -p 8080:80 php-test
+          
+          echo "Waiting for container to boot..."
+          sleep 10
+
+      - name: Smoke test index.php
+        run: |
+          curl --retry 5 --retry-delay 3 --fail http://localhost:8080 | tee output.txt
+          grep "Database connection: ✅ Connected" output.txt
