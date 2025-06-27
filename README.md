@@ -139,7 +139,7 @@ services:
   app:
     image: ghcr.io/cyfamod-technologies/ghcr-php:latest
     deploy:
-      replicas: 3
+      replicas: 1
       update_config:
         failure_action: rollback
 ```
