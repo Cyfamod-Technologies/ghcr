@@ -13,14 +13,23 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to ${{ github.event.inputs.env }}
     runs-on: ubuntu-latest
+
+    env:
+      ENV: ${{ github.event.inputs.env }}
+      HOST: ${{ github.event.inputs.env == 'staging' && secrets.STAGING_HOST || secrets.PRODUCTION_HOST }}
+      GHCR_IMAGE: ghcr.io/cyfamod-technologies/ghcr-php:latest
+
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets[format('{0}_HOST', github.event.inputs.env)] }}
+          host: ${{ env.HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            echo "Deploying to $ENV..."
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
-            docker stack deploy --with-registry-auth -c /home/ubuntu/ghcr/docker-compose.${{ github.event.inputs.env }}.yml ghcr
+            docker pull $GHCR_IMAGE
+            docker stack deploy --with-registry-auth -c /home/ubuntu/env-deploy/docker-compose.${ENV}.yml env-deploy
