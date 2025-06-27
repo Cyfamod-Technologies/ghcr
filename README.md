@@ -109,8 +109,7 @@ on:
 | `GHCR_TOKEN`      | GitHub PAT with `write:packages` scope |
 | `SSH_USER`        | SSH username (e.g., `ubuntu`)          |
 | `SSH_PASSWORD`    | SSH password or use SSH key            |
-| `STAGING_HOST`    | IP/DNS of staging Swarm manager        |
-| `PRODUCTION_HOST` | IP/DNS of production Swarm manager     |
+| `SSH_SERVER`      | IP/DNS of Swarm manager                |
 
 ---
 
