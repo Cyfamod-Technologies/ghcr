@@ -200,6 +200,16 @@ docker service rollback ghcr_app
 
 ---
 
+## 🤖 How i will use AI to Enhance This Pipeline
+
+* **Test Generation**: AI tools to auto-generate PHP unit tests based on code patterns
+* **Security Scans**: Integrate AI-powered vulnerability scanners (e.g., Snyk, GitHub CodeQL)
+* **Anomaly Detection**: Analyze deployment metrics and logs to detect failed rollouts faster
+* **ChatOps Integration**: Use AI-powered bots to monitor workflow status and answer deployment questions in real-time
+* **Code Review Assistants**: Incorporate AI tools to provide review suggestions on PRs
+
+---
+
 ## 📣 Future Improvements
 
 * Add deployment status notification (Slack, email)
