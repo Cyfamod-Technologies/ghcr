@@ -30,7 +30,7 @@ jobs:
       - name: Run PHP container
         run: |
           docker run -d --name php-app \
-            -e DB_HOST=127.0.0.1 \
+            -e DB_HOST=host.docker.internal \
             -e DB_DATABASE=testdb \
             -e DB_USERNAME=user \
             -e DB_PASSWORD=password \
