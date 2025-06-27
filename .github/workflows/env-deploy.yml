@@ -18,14 +18,14 @@ jobs:
 
     env:
       ENV: ${{ github.event.inputs.env }}
-      HOST: ${{ github.event.inputs.env == 'staging' && secrets.STAGING_HOST || secrets.PRODUCTION_HOST }}
+      # HOST: ${{ github.event.inputs.env == 'staging' && secrets.STAGING_HOST || secrets.PRODUCTION_HOST }}
       GHCR_IMAGE: ghcr.io/cyfamod-technologies/ghcr-php:latest
 
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ env.HOST }}
+          host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
