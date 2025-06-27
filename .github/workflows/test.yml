@@ -18,7 +18,11 @@ jobs:
           MYSQL_PASSWORD: password
         ports:
           - 3306:3306
-        options: --health-cmd "mysqladmin ping --silent" --health-interval 5s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd "mysqladmin ping --silent"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -30,12 +34,13 @@ jobs:
       - name: Run PHP container
         run: |
           docker run -d --name php-app \
-            -e DB_HOST=127.0.0.1 \
+            --network ${{ job.services.mysql.network }} \
+            -e DB_HOST=mysql \
             -e DB_DATABASE=testdb \
             -e DB_USERNAME=user \
             -e DB_PASSWORD=password \
             -p 8080:80 php-test
-          
+
           echo "Waiting for container to boot..."
           sleep 10
 

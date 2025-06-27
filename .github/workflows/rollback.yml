@@ -2,7 +2,7 @@ name: Rollback on Deploy Failure
 
 on:
   workflow_run:
-    workflows: ["Build and Deploy PHP App"]  
+    workflows: ["Build & Push Hello World to GHCR"]  
     types:
       - completed
 
