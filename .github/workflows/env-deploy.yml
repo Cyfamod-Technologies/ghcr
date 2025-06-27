@@ -29,7 +29,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            ENV="${{ github.event.inputs.env }}"
+            export GHCR_IMAGE="ghcr.io/cyfamod-technologies/ghcr-php:latest"
             echo "Deploying to $ENV..."
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
             docker pull $GHCR_IMAGE
             docker stack deploy --with-registry-auth -c /home/ubuntu/env-deploy/docker-compose.${ENV}.yml env-deploy
+
