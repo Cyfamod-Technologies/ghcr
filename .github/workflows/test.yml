@@ -23,7 +23,6 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 5
-          --network mynet
 
     steps:
       - name: Checkout code
@@ -32,19 +31,16 @@ jobs:
       - name: Build Docker image
         run: docker build -t php-test .
 
-      - name: Create Docker network
-        run: docker network create mynet
-
       - name: Run PHP container
         run: |
           docker run -d --name php-app \
-            --network mynet \
+            --network ${{ job.services.mysql.network }} \
             -e DB_HOST=mysql \
             -e DB_DATABASE=testdb \
             -e DB_USERNAME=user \
             -e DB_PASSWORD=password \
             -p 8080:80 php-test
-          
+
           echo "Waiting for container to boot..."
           sleep 10
 
