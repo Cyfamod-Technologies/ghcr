@@ -60,7 +60,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWOD }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: 22
           script: |
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
