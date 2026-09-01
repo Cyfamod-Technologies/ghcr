@@ -28,8 +28,14 @@ jobs:
           host: ${{ secrets.SSH_SERVER }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
+          # ENV is a workflow_dispatch "choice" input, so its actual value is
+          # already constrained to staging/production - but the job-level
+          # env: block above already resolves it to $ENV, so this remote
+          # script reuses that instead of interpolating the raw input text a
+          # second time. This script runs on a real server over SSH, not
+          # just the CI runner, so it's worth being consistent here too.
+          envs: ENV
           script: |
-            ENV="${{ github.event.inputs.env }}"
             export GHCR_IMAGE="ghcr.io/cyfamod-technologies/ghcr-php:latest"
             echo "Deploying to $ENV..."
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_TOKEN }}
